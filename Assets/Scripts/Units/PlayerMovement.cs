@@ -27,9 +27,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] 
     private float gravity = -9.8f;
 
-    [SerializeField] 
-    private float jumpHeight = 5f;
-
     [SerializeField]
     private float jumpForce = 2f;
 
@@ -83,7 +80,7 @@ public class PlayerMovement : MonoBehaviour
     {
         Vector3 direction = movement.normalized;
 
-        //animation Stuff
+        //animation Stuff (Animation stuff should be in the state machine but i'm lazy)
         animator.SetFloat("MoveX", direction.x, damptimeMovement, Time.fixedDeltaTime);
         animator.SetFloat("MoveY", direction.z, damptimeMovement, Time.fixedDeltaTime);
 
@@ -122,8 +119,8 @@ public class PlayerMovement : MonoBehaviour
     public void Jump()
 
         {
-            //velocityInY += Mathf.Sqrt(jumpHeight * -2f * gravity);
-            velocityInY = jumpForce;
+        //velocityInY += Mathf.Sqrt(jumpForce * -2f * gravity);
+        velocityInY = jumpForce;
             grounded = false;
         }
 
