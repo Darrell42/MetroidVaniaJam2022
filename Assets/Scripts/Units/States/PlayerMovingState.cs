@@ -5,6 +5,7 @@ public class PlayerMovingState : PlayerStateBase
 
     private PlayerMovement playerMovement;
     private Animator animator;
+    private bool pushing = false;
 
 
     public override void EnterState(PlayerUnit player)
@@ -13,6 +14,8 @@ public class PlayerMovingState : PlayerStateBase
         animator = player.GetComponent<Animator>();
 
         player.curentStateNae = "Moving";
+
+
         
     }
 
@@ -21,6 +24,10 @@ public class PlayerMovingState : PlayerStateBase
         playerMovement.ApplayGravity();
         //playerMovement.Move2D(new Vector3(0f, 0f, player.moveInput.x));
         playerMovement.Move(new Vector3(player.moveInput.x, 0f, 0f));
+
+        //This is used because OncolliderHit has no exit ecent
+        animator.SetBool("Push", pushing);
+        pushing = false;
     }
 
     public override void OnCollisionEnter(PlayerUnit player, Collision collision)
@@ -46,7 +53,14 @@ public class PlayerMovingState : PlayerStateBase
             return;
         }
 
-        animator.SetBool("Push", true);
+        // We dont want to push objects below us
+        if (hit.moveDirection.y < -0.3)
+        {
+            return;
+        }
+
+        pushing = true;
+        //animator.SetBool("Push", true);
 
         // Calculate push direction from move direction,
         // we only push objects to the sides never up and down
