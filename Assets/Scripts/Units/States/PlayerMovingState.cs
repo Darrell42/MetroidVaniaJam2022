@@ -27,6 +27,7 @@ public class PlayerMovingState : PlayerStateBase
 
         //This is used because OncolliderHit has no exit ecent
         animator.SetBool("Push", pushing);
+        if (!pushing) player.GetComponent<CharacterController>().radius = 0.13f;
         pushing = false;
     }
 
@@ -43,23 +44,27 @@ public class PlayerMovingState : PlayerStateBase
     public override void OnControllerColliderHit(PlayerUnit player, ControllerColliderHit hit)
     {
 
-        bool haspushBoxSkill = player.FindSkill(GameManager.Instance.PushBox);
-
-        Rigidbody body = hit.collider.attachedRigidbody;
-        
-        // no rigidbody
-        if (body == null || body.isKinematic || !haspushBoxSkill)
-        {
-            return;
-        }
-
         // We dont want to push objects below us
         if (hit.moveDirection.y < -0.3)
         {
             return;
         }
 
+        bool haspushBoxSkill = player.FindSkill(GameManager.Instance.PushBox);
+
+        Rigidbody body = hit.collider.attachedRigidbody;
+
+        // no rigidbody
+        if (body == null || body.isKinematic || !haspushBoxSkill)
+        {
+            return;
+        }
+
         pushing = true;
+
+        if (player.GetComponent<CharacterController>().radius < 0.5f) player.GetComponent<CharacterController>().radius += 1f * Time.deltaTime;
+
+        //player.GetComponent<CharacterController>().radius = 0.50f;
         //animator.SetBool("Push", true);
 
         // Calculate push direction from move direction,
