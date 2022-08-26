@@ -18,6 +18,12 @@ public class GameManager : MonoBehaviour
     public BaseSkill DoubleJumpSkill { get { return doubleJumpSkill; } }
     //public BaseSkill jumpSkill2;
 
+    [SerializeField] private BaseSkill pushBox;
+    public BaseSkill PushBox { get { return pushBox; } }
+    //public BaseSkill jumpSkill2;
+
+    #region SingleTon
+
     public static GameManager Instance
     {
         get
@@ -38,7 +44,6 @@ public class GameManager : MonoBehaviour
         instance = this;
     }
 
+    #endregion
 
-
-    // Start is called before the first frame update
 }

@@ -107,5 +107,10 @@ public class PlayerUnit : Unit
         currentState.OnCollisionExit(this, collision);
     }
 
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        currentState.OnControllerColliderHit(this, hit);
+    }
+
     #endregion
 }

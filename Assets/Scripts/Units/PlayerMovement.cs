@@ -104,7 +104,7 @@ public class PlayerMovement : MonoBehaviour
 
             moveDirection.Normalize();
 
-            characterController.Move(new Vector3(moveDirection.x, velocityInY, moveDirection.z) * speed * Time.fixedDeltaTime);
+            characterController.Move(new Vector3(0f, velocityInY, moveDirection.z) * speed * Time.fixedDeltaTime);
         }
         else
         {

@@ -37,6 +37,11 @@ public class PlayerAirboneState : PlayerStateBase
 
     }
 
+    public override void OnControllerColliderHit(PlayerUnit player, ControllerColliderHit hit)
+    {
+     
+    }
+
     public override void OnTriggerEnter(PlayerUnit player, Collider other)
     {
 

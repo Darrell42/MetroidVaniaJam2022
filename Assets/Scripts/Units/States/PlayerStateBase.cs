@@ -12,4 +12,8 @@ public abstract class PlayerStateBase
     public abstract void OnCollisionExit(PlayerUnit player, Collision collision);
     public abstract void OnTriggerEnter(PlayerUnit player, Collider other);
     public abstract void OnTriggerExit(PlayerUnit player, Collider other);
+    
+    public abstract void OnControllerColliderHit(PlayerUnit player, ControllerColliderHit hit);
+
+
 }
