@@ -55,10 +55,19 @@ public class PlayerAirboneState : PlayerStateBase
             player.TransitionToState(player.playerMovingState);
         }
 
-        if ((player.controls.Gameplay.Jump.triggered)  && (player.FindSkill(GameManager.Instance.DoubleJumpSkill))  &&  (countJump < playerMovement.MaxAerialJump) )
+        //DoubleJump
+        if ((player.controls.Gameplay.Jump.triggered)  &&  (countJump < playerMovement.MaxAerialJump) )
         {
-            countJump++;
-            playerMovement.Jump();
+
+            //FindSkill moved inside so is no call on every update
+            bool hasDoubleJumpSkill = player.FindSkill(GameManager.Instance.DoubleJumpSkill);
+
+            if (hasDoubleJumpSkill)
+            {
+                countJump++;
+                playerMovement.Jump();
+            }
+
         }
 
     }

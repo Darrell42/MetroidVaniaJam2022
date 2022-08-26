@@ -45,16 +45,20 @@ public class PlayerMovingState : PlayerStateBase
 
     public override void Update(PlayerUnit player)
     {
-        //Change to airbone State
+        //Change to airbone State when player is no longer rounded
         if (!playerMovement.grounded)
         {
             player.TransitionToState(player.playerAirBoneState);
         }
 
-        //jump
-        if (player.controls.Gameplay.Jump.triggered && player.FindSkill(GameManager.Instance.JumpSkill))
+        
+        //jump on button trigger, the findskill was moved inside the first fi satetment so it doesent called in every update
+        if (player.controls.Gameplay.Jump.triggered)
         {
-            playerMovement.Jump();
+            bool hasJumpSkill = player.FindSkill(GameManager.Instance.JumpSkill);
+            
+            //probably an animation will be added
+            if(hasJumpSkill) playerMovement.Jump();
         }
        
     }
