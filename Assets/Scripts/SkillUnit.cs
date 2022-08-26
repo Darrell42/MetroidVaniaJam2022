@@ -39,7 +39,7 @@ public class SkillUnit : MonoBehaviour, IRecolectable
     {
         //This maybe would be better if is handle by the player script bur i'm lazy
         PlayerUnit currentPlayer = other.GetComponent<PlayerUnit>();
-        if(currentPlayer != null)
+        if(currentPlayer != null && skill != null)
         {
             Recolect(currentPlayer);
             Die();
