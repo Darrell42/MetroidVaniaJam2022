@@ -46,6 +46,8 @@ public class PlayerMovingState : PlayerStateBase
             return;
         }
 
+        animator.SetBool("Push", true);
+
         // Calculate push direction from move direction,
         // we only push objects to the sides never up and down
         Vector3 pushDir = new Vector3(hit.moveDirection.x, 0, hit.moveDirection.z);
