@@ -54,8 +54,10 @@ public class PlayerMovingState : PlayerStateBase
 
         Rigidbody body = hit.collider.attachedRigidbody;
 
+        IPusheable pusheable  = hit.collider.GetComponent<IPusheable>();
+
         // no rigidbody
-        if (body == null || body.isKinematic || !haspushBoxSkill)
+        if (body == null || body.isKinematic || !haspushBoxSkill || pusheable == null)
         {
             return;
         }
