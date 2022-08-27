@@ -7,7 +7,7 @@ public class PlayerMovement : MonoBehaviour
     private CharacterController characterController;
     private Animator animator;
 
-    public bool grounded;
+    public bool grounded = true;
 
     private float velocityInY = 0f;
 
@@ -56,7 +56,8 @@ public class PlayerMovement : MonoBehaviour
         {
             velocityInY = -1f;
         }
-        grounded = characterController.isGrounded || distanceToGround < maxDistanceY || groundCheck.IsGrounded();
+        //grounded = characterController.isGrounded || distanceToGround < maxDistanceY || groundCheck.IsGrounded();
+        grounded = characterController.isGrounded || groundCheck.IsGrounded();
     }
 
     private void DistanceToGround()

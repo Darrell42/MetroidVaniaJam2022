@@ -57,6 +57,8 @@ public class PlayerAirboneState : PlayerStateBase
         //Change to moving State
         if (playerMovement.grounded)
         {
+
+            animator.SetBool("Airbone", false);
             player.TransitionToState(player.playerMovingState);
         }
 
@@ -70,6 +72,7 @@ public class PlayerAirboneState : PlayerStateBase
             if (hasDoubleJumpSkill)
             {
                 countJump++;
+                animator.SetTrigger("Jump");
                 playerMovement.Jump();
             }
 

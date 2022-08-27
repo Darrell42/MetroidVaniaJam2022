@@ -96,6 +96,7 @@ public class PlayerMovingState : PlayerStateBase
         //Change to airbone State when player is no longer rounded
         if (!playerMovement.grounded)
         {
+            animator.SetBool("Airbone", true);
             player.TransitionToState(player.playerAirBoneState);
         }
 
@@ -104,9 +105,12 @@ public class PlayerMovingState : PlayerStateBase
         if (player.controls.Gameplay.Jump.triggered)
         {
             bool hasJumpSkill = player.FindSkill(GameManager.Instance.JumpSkill);
-            
+
             //probably an animation will be added
-            if(hasJumpSkill) playerMovement.Jump();
+            if (hasJumpSkill) 
+            {
+                playerMovement.Jump();
+            }
         }
        
     }
