@@ -7,17 +7,24 @@ public class Box : MonoBehaviour, IPusheable
 
     private Rigidbody rigidbody;
 
+    private bool canPush = true;
+
     [SerializeField]
     private bool useFakeGravity;
 
     [SerializeField]
     private float fakeForce = 5.3f;
-    
-    
+
+
+    public bool CanPush()
+    {
+        return canPush;
+    }
     // Start is called before the first frame update
     void Start()
     {
-        rigidbody = GetComponent<Rigidbody>();    
+        rigidbody = GetComponent<Rigidbody>();
+        
     }
 
     private void FixedUpdate()
@@ -36,4 +43,21 @@ public class Box : MonoBehaviour, IPusheable
 
         }
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        Puzzle isPuzzle = collision.collider.GetComponent<Puzzle>();
+        Wall isWall = collision.collider.GetComponent<Wall>();
+
+        canPush = (isPuzzle == null && isWall == null);
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        Puzzle isPuzzle = collision.collider.GetComponent<Puzzle>();
+        Wall isWall = collision.collider.GetComponent<Wall>();
+
+        canPush = !(isPuzzle == null && isWall == null);
+    }
+
 }

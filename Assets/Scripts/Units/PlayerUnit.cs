@@ -18,6 +18,7 @@ public class PlayerUnit : Unit
     //Public State
     public PlayerMovingState playerMovingState = new PlayerMovingState();
     public PlayerAirboneState playerAirBoneState = new PlayerAirboneState();
+    public PlayerWallGlideState playerSlideableState = new PlayerWallGlideState();
 
     //Variable to store the inputs used to move
     public Controls controls;
@@ -25,6 +26,8 @@ public class PlayerUnit : Unit
 
     [SerializeField]
     private List<BaseSkill> skillIst;
+
+    public int countJump;
 
     public void TransitionToState(PlayerStateBase nextState)
     {
@@ -44,9 +47,29 @@ public class PlayerUnit : Unit
         return returnSkill;
     }
 
+    public bool RemoveSkill(BaseSkill skill)
+    {
+        bool returnSkill = false;
+
+        if (skillIst.Count > 0)
+        {
+            BaseSkill findSkill = skillIst.Find(x => x.IDname == skill.IDname);
+
+            returnSkill = skillIst.Remove(findSkill);
+        }
+        return returnSkill;
+    }
+
     public void AddSkill(BaseSkill skillTodADd)
     {
         skillIst.Add(skillTodADd);
+    }
+
+    public IEnumerator SkillCoolDown(float waitTime, BaseSkill skill)
+    {
+        skillIst.Remove(skill);
+        yield return new WaitForSeconds(waitTime);
+        skillIst.Add(skill);
     }
 
     // Start is called before the first frame update

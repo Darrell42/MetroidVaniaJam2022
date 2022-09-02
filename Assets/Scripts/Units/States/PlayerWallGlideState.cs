@@ -1,15 +1,18 @@
-
-
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerAirboneState : PlayerStateBase
+public class PlayerWallGlideState : PlayerStateBase
 {
     private PlayerMovement playerMovement;
     private Animator animator;
 
-    private int countJump;
+    private float jumpCooldown = 10f;
+
+    private bool canJump = true;
 
     private bool sliding;
+
 
 
     public override void EnterState(PlayerUnit player)
@@ -17,20 +20,29 @@ public class PlayerAirboneState : PlayerStateBase
         playerMovement = player.GetComponent<PlayerMovement>();
         animator = player.GetComponent<Animator>();
 
-        player.curentStateNae = "Airbone";
+        player.curentStateNae = "Wall Jump";
 
-        countJump = 0;
+        sliding = true;
 
-        player.countJump = 0;
-
-        sliding = false;
+        playerMovement.velocityInY = 0f;
     }
 
     public override void FixedUpdate(PlayerUnit player)
     {
-        playerMovement.ApplayGravity();
+        playerMovement.ApplayGravity(-1f);
         //playerMovement.Move2D(new Vector3(0f, 0f, player.moveInput.x));
         playerMovement.Move(new Vector3(player.moveInput.x, 0f, 0f));
+
+        animator.SetBool("WallSlide", sliding);
+        if (!sliding)
+        {
+            animator.SetBool("Airbone", true);
+            player.TransitionToState(player.playerAirBoneState);
+        }
+
+        sliding = false;
+
+
     }
 
     public override void OnCollisionEnter(PlayerUnit player, Collision collision)
@@ -45,6 +57,7 @@ public class PlayerAirboneState : PlayerStateBase
 
     public override void OnControllerColliderHit(PlayerUnit player, ControllerColliderHit hit)
     {
+
         if (hit.moveDirection.y < -0.3)
         {
             return;
@@ -57,14 +70,12 @@ public class PlayerAirboneState : PlayerStateBase
         Islidable slideable = hit.collider.GetComponent<Islidable>();
 
         // no rigidbody
-        if (body == null  || !hasWallJump || slideable == null)
+        if (body == null || !hasWallJump || slideable == null)
         {
             return;
         }
 
-        if (playerMovement.velocityInY < 0)
-            //playerMovement.velocityInY = 0f;
-            player.TransitionToState(player.playerSlideableState);
+        sliding = true;
 
     }
 
@@ -80,33 +91,42 @@ public class PlayerAirboneState : PlayerStateBase
 
     public override void Update(PlayerUnit player)
     {
-        //Change to moving State
+
         if (playerMovement.grounded)
         {
 
             animator.SetBool("Airbone", false);
+            animator.SetBool("WallSlide", false);
             player.TransitionToState(player.playerMovingState);
         }
 
-        //DoubleJump
-        if ((player.controls.Gameplay.Jump.triggered)  &&  (player.countJump < playerMovement.MaxAerialJump) )
+        //jump on button trigger, the findskill was moved inside the first fi satetment so it doesent called in every update
+        if (player.controls.Gameplay.Jump.triggered)
         {
+            bool hasJumpSkill = player.FindSkill(GameManager.Instance.WallJump);
 
-            //FindSkill moved inside so is no call on every update
-            bool hasDoubleJumpSkill = player.FindSkill(GameManager.Instance.DoubleJumpSkill);
-
-            if (hasDoubleJumpSkill)
+            //probably an animation will be added
+            if (hasJumpSkill && canJump)
             {
-                countJump++;
+                playerMovement.WallJump();
+                
+                animator.SetBool("WallSlide", false);
+
+                //player.StartCoroutine("SkillCoolDown", 2f, GameManager.Instance.WallJump);
+                //player.StartCoroutine(player.SkillCoolDown(0.7f, GameManager.Instance.DoubleJumpSkill));
+                if(playerMovement.wallJumpCoolDown > 0)
+                    player.StartCoroutine(player.SkillCoolDown(playerMovement.wallJumpCoolDown, GameManager.Instance.WallJump));
+
+                player.TransitionToState(player.playerAirBoneState);
+
                 player.countJump++;
+
                 animator.SetTrigger("Jump");
 
-                if(playerMovement.doubleJumpCoolDown > 0)
-                    player.StartCoroutine(player.SkillCoolDown(playerMovement.doubleJumpCoolDown, GameManager.Instance.DoubleJumpSkill));
-                playerMovement.Jump();
             }
-
         }
+
+        
 
     }
 }

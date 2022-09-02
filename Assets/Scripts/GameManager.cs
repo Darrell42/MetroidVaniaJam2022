@@ -7,6 +7,8 @@ public class GameManager : MonoBehaviour
 
     private static GameManager instance;
 
+    [SerializeField] private PlayerUnit player;
+    public PlayerUnit Player { get { return player; } }
 
     [Header("Skill")]
 
@@ -21,6 +23,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private BaseSkill pushBox;
     public BaseSkill PushBox { get { return pushBox; } }
     //public BaseSkill jumpSkill2;
+
+    [SerializeField] private BaseSkill wallJump;
+    public BaseSkill WallJump { get { return wallJump; } }
 
     #region SingleTon
 

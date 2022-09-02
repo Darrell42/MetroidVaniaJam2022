@@ -62,6 +62,8 @@ public class PlayerMovingState : PlayerStateBase
             return;
         }
 
+        if (!pusheable.CanPush()) return;
+
         pushing = true;
 
         if (player.GetComponent<CharacterController>().radius < 0.5f) player.GetComponent<CharacterController>().radius += 1f * Time.deltaTime;

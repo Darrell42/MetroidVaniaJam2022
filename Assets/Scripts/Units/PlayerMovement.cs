@@ -9,7 +9,7 @@ public class PlayerMovement : MonoBehaviour
 
     public bool grounded = true;
 
-    private float velocityInY = 0f;
+    public float velocityInY = 0f;
 
     private float distanceToGround = 0;
     [SerializeField] private float maxDistanceY = 0.4f;
@@ -34,6 +34,12 @@ public class PlayerMovement : MonoBehaviour
     private int maxAerialJump = 1;
     public int MaxAerialJump { get { return maxAerialJump; } }
 
+    [Header("CoolDowns")]
+    public float wallJumpCoolDown = 0.7f;
+    public float jummpCoolDown = 0f;
+    public float doubleJumpCoolDown = 0f;
+
+
     [SerializeField] private Transform cam;
     [SerializeField] private Transform gfxRotation;
     [SerializeField] private GroundCheck groundCheck;
@@ -52,6 +58,20 @@ public class PlayerMovement : MonoBehaviour
 
         DistanceToGround();
         
+        if (grounded && velocityInY < 0)
+        {
+            velocityInY = -1f;
+        }
+        //grounded = characterController.isGrounded || distanceToGround < maxDistanceY || groundCheck.IsGrounded();
+        grounded = characterController.isGrounded || groundCheck.IsGrounded();
+    }
+
+    public void ApplayGravity(float cusomGravity)
+    {
+        velocityInY += cusomGravity * Time.fixedDeltaTime;
+
+        DistanceToGround();
+
         if (grounded && velocityInY < 0)
         {
             velocityInY = -1f;
@@ -124,5 +144,15 @@ public class PlayerMovement : MonoBehaviour
         velocityInY = jumpForce;
             grounded = false;
         }
+
+    public void WallJump()
+
+    {
+        //velocityInY += Mathf.Sqrt(jumpForce * -2f * gravity);
+        velocityInY = jumpForce;
+        grounded = false;
+
+        //Move(new Vector3(-player.moveInput.x * 3f * 1f,0f,0f));
+    }
 
 }

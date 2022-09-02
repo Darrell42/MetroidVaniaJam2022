@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IPusheable
+public class Wall : MonoBehaviour, Islidable
 {
-    public bool CanPush();
+
 }
