@@ -17,7 +17,10 @@ public class MovingPlataform : MonoBehaviour
     [SerializeField]
     private float speed = 0.5f;
 
-    public Vector3 targetDirection;
+    [SerializeField]
+    private Vector3 impactOnLand;
+
+    private Vector3 targetDirection;
 
 
     public void SetActivated(bool active)
@@ -63,7 +66,9 @@ public class MovingPlataform : MonoBehaviour
         if (player != null)
         {
             //player.transform.parent = transform;
-            currentPlayer = player;        }
+            currentPlayer = player;
+
+        }
 
     }
 
