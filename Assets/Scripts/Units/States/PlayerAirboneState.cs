@@ -45,7 +45,7 @@ public class PlayerAirboneState : PlayerStateBase
 
     public override void OnControllerColliderHit(PlayerUnit player, ControllerColliderHit hit)
     {
-        if (hit.moveDirection.y < -0.3)
+        if (hit.moveDirection.y < -0.5)
         {
             return;
         }
