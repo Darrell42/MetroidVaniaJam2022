@@ -45,11 +45,12 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private GroundCheck groundCheck;
 
 
-    private void Awake()
+    private void Start()
     {
         characterController = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
-        player.GetComponent<PlayerUnit>();
+        //player.GetComponent<PlayerUnit>();
+
     }
 
     public void ApplayGravity()

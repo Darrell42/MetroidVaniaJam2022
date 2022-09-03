@@ -7,6 +7,8 @@ public class PlayerMovingState : PlayerStateBase
     private Animator animator;
     private bool pushing = false;
 
+    private float originalRadius;
+
 
     public override void EnterState(PlayerUnit player)
     {
@@ -15,8 +17,9 @@ public class PlayerMovingState : PlayerStateBase
 
         player.curentStateNae = "Moving";
 
+        originalRadius = player.GetComponent<CharacterController>().radius;
 
-        
+
     }
 
     public override void FixedUpdate(PlayerUnit player)
@@ -27,7 +30,7 @@ public class PlayerMovingState : PlayerStateBase
 
         //This is used because OncolliderHit has no exit ecent
         animator.SetBool("Push", pushing);
-        if (!pushing) player.GetComponent<CharacterController>().radius = 0.13f;
+        if (!pushing) player.GetComponent<CharacterController>().radius = originalRadius;
         pushing = false;
     }
 
