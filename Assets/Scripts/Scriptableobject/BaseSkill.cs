@@ -11,6 +11,8 @@ public class BaseSkill : ScriptableObject
 
     public string description;
 
+    public string message;
+
     [Header("Descriptions")]
     [Multiline(2)]
     public string Remarcs ="IDname should be unique to the skills";

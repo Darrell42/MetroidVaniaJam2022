@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IDname: WallJump
   description: Skill that allows to slide throught walls an to wall jump
+  message: You got Wall Jump Skill
   Remarcs: IDname should be unique to the skills

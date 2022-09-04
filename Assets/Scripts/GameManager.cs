@@ -27,6 +27,22 @@ public class GameManager : MonoBehaviour
     [SerializeField] private BaseSkill wallJump;
     public BaseSkill WallJump { get { return wallJump; } }
 
+    [Header("UI")]
+    public UIMessage uiMessage;
+
+    //Functions
+
+    public void SetMessage(string message)
+    {
+        uiMessage.SetMessage(message);
+    }
+
+    public void SetMessage(string message, float duration, float speed)
+    {
+        uiMessage.SetMessage(message, duration, speed);
+    }
+
+
     #region SingleTon
 
     public static GameManager Instance

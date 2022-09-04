@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IDname: PushBox
   description: skill allows to be able to push boxes
+  message: You got Push Box Skill
   Remarcs: IDname should be unique to the skills

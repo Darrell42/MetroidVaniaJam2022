@@ -25,6 +25,10 @@ public class SkillUnit : MonoBehaviour, IRecolectable
         if(skill != null)
         {
             player.AddSkill(skill);
+
+            //This set the UI message that the sjull was get
+            GameManager.Instance.SetMessage(skill.message);
+
             skill = null;
         }
         

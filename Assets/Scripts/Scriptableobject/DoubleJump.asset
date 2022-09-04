@@ -14,3 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IDname: DoubleJump
   description: This skill allows the player to jump in the air
+  message: You got Double Jump Skill
+  Remarcs: IDname should be unique to the skills
