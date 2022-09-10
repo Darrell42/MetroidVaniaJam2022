@@ -49,7 +49,7 @@ public class PlayerMovement : MonoBehaviour
     {
         characterController = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
-        //player.GetComponent<PlayerUnit>();
+        player = GetComponent<PlayerUnit>();
 
     }
 
@@ -152,6 +152,7 @@ public class PlayerMovement : MonoBehaviour
         //velocityInY += Mathf.Sqrt(jumpForce * -2f * gravity);
         velocityInY = jumpForce;
         grounded = false;
+        //characterController.Move(new Vector3(0, jumpForce, 5f * -player.moveInput.x) * speed * Time.fixedDeltaTime);
 
         //Move(new Vector3(-player.moveInput.x * 3f * 1f,0f,0f));
     }

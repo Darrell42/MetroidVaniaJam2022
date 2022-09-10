@@ -29,6 +29,8 @@ public class PlayerUnit : Unit
 
     public int countJump;
 
+    public float fixedXposition = 4.17f;
+
     public void TransitionToState(PlayerStateBase nextState)
     {
         currentState = nextState;
@@ -108,6 +110,11 @@ public class PlayerUnit : Unit
     private void FixedUpdate()
     {
         currentState.FixedUpdate(this);
+
+        if (transform.position.x != fixedXposition)
+        {
+            transform.position = new Vector3(fixedXposition, transform.position.y, transform.position.z);
+        }
     }
 
     private void OnTriggerEnter(Collider other)

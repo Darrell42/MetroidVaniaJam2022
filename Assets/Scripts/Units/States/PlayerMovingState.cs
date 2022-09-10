@@ -4,6 +4,8 @@ public class PlayerMovingState : PlayerStateBase
 {
 
     private PlayerMovement playerMovement;
+    private PlayerCombat combat;
+
     private Animator animator;
     private bool pushing = false;
 
@@ -13,6 +15,8 @@ public class PlayerMovingState : PlayerStateBase
     public override void EnterState(PlayerUnit player)
     {
         playerMovement = player.GetComponent<PlayerMovement>();
+        combat = player.GetComponent<PlayerCombat>();
+
         animator = player.GetComponent<Animator>();
 
         player.curentStateNae = "Moving";
@@ -69,7 +73,7 @@ public class PlayerMovingState : PlayerStateBase
 
         pushing = true;
 
-        if (player.GetComponent<CharacterController>().radius < 0.5f) player.GetComponent<CharacterController>().radius += 1f * Time.deltaTime;
+        if (player.GetComponent<CharacterController>().radius < 0.65f) player.GetComponent<CharacterController>().radius += 1f * Time.deltaTime;
 
         //player.GetComponent<CharacterController>().radius = 0.50f;
         //animator.SetBool("Push", true);
@@ -102,6 +106,7 @@ public class PlayerMovingState : PlayerStateBase
         if (!playerMovement.grounded)
         {
             animator.SetBool("Airbone", true);
+            player.GetComponent<CharacterController>().radius = originalRadius;
             player.TransitionToState(player.playerAirBoneState);
         }
 
@@ -113,11 +118,22 @@ public class PlayerMovingState : PlayerStateBase
 
             //probably an animation will be added
             if (hasJumpSkill) 
-            {
+            {   
                 playerMovement.Jump();
             }
         }
-       
+
+        if (player.controls.Gameplay.Atack.triggered)
+        {
+            bool hasAtackSkill = player.FindSkill(GameManager.Instance.Atack);
+
+            //probably an animation will be added
+            if (hasAtackSkill)
+            {
+                combat.Atack();
+            }
+        }
+
     }
 
 

@@ -27,6 +27,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private BaseSkill wallJump;
     public BaseSkill WallJump { get { return wallJump; } }
 
+    [SerializeField] private BaseSkill atack;
+    public BaseSkill Atack { get { return atack; } }
+
     [Header("UI")]
     public UIMessage uiMessage;
 
