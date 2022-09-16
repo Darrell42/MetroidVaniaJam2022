@@ -26,32 +26,32 @@ public class PlayerSounds : MonoBehaviour
 
     public void PlayAudioJump()
     {
-        PlayAudio(jumpAudio, false );
+        PlayAudio(jumpAudio, 1f);
     }
 
     public void PlayAudioDoubleJump()
     {
-        PlayAudio(dounlrJumpAudio, false);
+        PlayAudio(dounlrJumpAudio, 1f);
     }
 
     public void PlayStepAudio()
     {
-        PlayAudio(stepsAudio, false);
+        PlayAudio(stepsAudio, 0.3f);
     }
 
     public void PlayAudioSlide()
     {
-        PlayAudio(Slide, false);
+        PlayAudio(Slide, 0.5f);
     }
 
     public void PlayAudioLand()
     {
-        PlayAudio(Land, false);
+        PlayAudio(Land, 1f);
     }
 
     public void PlayPoshBox()
     {
-        PlayAudio(pushBox, true);
+        PlayAudioLoop(pushBox, true);
     }
 
 
@@ -64,9 +64,26 @@ public class PlayerSounds : MonoBehaviour
 
 
 
-    public void PlayAudio(List<AudioClip> audio, bool loop)
+    public void PlayAudio(List<AudioClip> audio, float volumeScale)
     {
         if(jumpAudio != null)
+        {
+
+            if (audio.Count <= 0) return;
+
+            int randomAudio = Random.Range(0, audio.Count - 1);
+
+
+            //audioSorce.loop = loop;
+            //audioSorce.clip = audio[randomAudio];
+            //audioSorce.Play();
+            audioSorce.PlayOneShot(audio[randomAudio], volumeScale);
+        }
+    }
+
+    public void PlayAudioLoop(List<AudioClip> audio, bool loop)
+    {
+        if (jumpAudio != null)
         {
 
             if (audio.Count <= 0) return;
@@ -77,6 +94,7 @@ public class PlayerSounds : MonoBehaviour
             audioSorce.loop = loop;
             audioSorce.clip = audio[randomAudio];
             audioSorce.Play();
+            //audioSorce.PlayOneShot(audio[randomAudio], volumeScale);
         }
     }
 
