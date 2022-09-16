@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IDname: Sword Atack
   description: Allows the player to atack
-  message: You Got a Sword
+  message: You Got the Afro Space Sword
   Remarcs: IDname should be unique to the skills

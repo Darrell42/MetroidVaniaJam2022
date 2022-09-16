@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private PlayerUnit player;
     public PlayerUnit Player { get { return player; } }
+
+    public GameObject cameraFallow;
 
     [Header("Skill")]
 
@@ -32,6 +35,7 @@ public class GameManager : MonoBehaviour
 
     [Header("UI")]
     public UIMessage uiMessage;
+    public GameObject uiGameOver;
 
     //Functions
 
@@ -44,6 +48,32 @@ public class GameManager : MonoBehaviour
     {
         uiMessage.SetMessage(message, duration, speed);
     }
+
+    public void EndGame(float time)
+    {
+        StartCoroutine(WAitAndEndGame(time));
+    }
+
+    public void Restart(float time)
+    {
+        StartCoroutine(WaitAndREstrt(time));
+    }
+
+    IEnumerator WaitAndREstrt(float time)
+    {
+        yield return new WaitForSeconds(time);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    IEnumerator WAitAndEndGame(float time)
+    {
+        yield return new WaitForSeconds(time);
+        uiGameOver.SetActive(true);
+        
+        yield return new WaitForSeconds(time);
+        Application.Quit();
+    }
+
 
 
     #region SingleTon

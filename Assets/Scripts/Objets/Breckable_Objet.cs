@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Breckable_Objet : MonoBehaviour,IDamagable, IBrekable
 {
+    public float shaderDisolveValue = 0;
+    private bool exploding = false;
+
     [Header("Atributes")]
     [SerializeField]
     private float resistance = 100f;
@@ -60,8 +63,12 @@ public class Breckable_Objet : MonoBehaviour,IDamagable, IBrekable
     private Material material;
 
 
+    public delegate void ObjetBreck();
+    public ObjetBreck onBreck;
+
     public void ApplyDamage(float damage)
     {
+
         Breack(damage);
 
         if(explosionParticle != null)
@@ -119,24 +126,28 @@ public class Breckable_Objet : MonoBehaviour,IDamagable, IBrekable
         GetComponent<Rigidbody>().isKinematic = false;
         GetComponent<Collider>().enabled = true;
 
+        exploding = false;
+
     }
 
     public IEnumerator Reset(float speed)
     {
         yield return new WaitForSeconds(waitForSeconds);
 
-        while(material.GetFloat("_Disolve") < 1)
+        while(material.GetFloat("_Disolve") < 1f)
         {
             float newValuw = material.GetFloat("_Disolve") + speed * Time.deltaTime;
             material.SetFloat("_Disolve", newValuw);
+
             yield return null;
         }
         RessePosition();
 
-        while (material.GetFloat("_Disolve") > -0.1)
+        while (material.GetFloat("_Disolve") > -0.1f)
         {
             float newValuw = material.GetFloat("_Disolve") - speed * Time.deltaTime;
             material.SetFloat("_Disolve", newValuw);
+
             yield return null;
         }
 
@@ -189,6 +200,7 @@ public class Breckable_Objet : MonoBehaviour,IDamagable, IBrekable
     {
         if(orignalPeace != null && peaces != null)
         {
+            onBreck?.Invoke();
 
             piecesPArent.transform.parent = null;
             piecesPArent.transform.position = orignalPeace.transform.position;
@@ -218,6 +230,7 @@ public class Breckable_Objet : MonoBehaviour,IDamagable, IBrekable
     {
         if (orignalPeace != null && peaces != null)
         {
+            onBreck?.Invoke();
 
             piecesPArent.transform.parent = null;
             piecesPArent.transform.position = orignalPeace.transform.position;
@@ -277,9 +290,10 @@ public class Breckable_Objet : MonoBehaviour,IDamagable, IBrekable
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.relativeVelocity.magnitude > resistance)
+        if(collision.relativeVelocity.magnitude > resistance && !exploding)
         {
             ApplyDamage(collision.relativeVelocity.magnitude + explosionAdditive);
+            exploding = true;
         }
     }
 
